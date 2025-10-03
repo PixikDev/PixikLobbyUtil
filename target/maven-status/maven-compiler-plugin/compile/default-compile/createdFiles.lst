@@ -1,3 +1,4 @@
 pixik\ru\pixiklobbyutil\PixikLobbyUtil.class
+pixik\ru\pixiklobbyutil\UpdateChecker.class
 pixik\ru\pixiklobbyutil\listener\PlayerListener.class
 pixik\ru\pixiklobbyutil\commands\CommandHandler.class
