@@ -1,0 +1,7 @@
+name: PIxikLobbyUtil
+version: '1.0'
+main: pixik.ru.pixiklobbyutil.PixikLobbyUtil
+api-version: '1.21'
+authors: [PixikDev]
+description: Plugin on compass
+website: shop.hoolmc.ru

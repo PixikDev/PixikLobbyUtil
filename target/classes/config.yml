@@ -1,0 +1,67 @@
+compass:
+  slot: 4
+  material: "COMPASS"
+  display_name: "&6&lМЕНЮ"
+  lore:
+    - "&7Нажмите для открытия меню"
+    - "&eЛКМ/ПКМ/СКМ - открыть меню"
+  custom_model_data: 1000
+  glowing: true
+
+menu:
+  command: "menu"
+  click_types:
+    - "LEFT"
+    - "RIGHT"
+    - "MIDDLE"
+  send_click_message: true
+  click_message: "&aОткрываем меню..."
+
+protection:
+  prevent_drop: true
+  prevent_move: true
+  prevent_other_inventories: true
+  prevent_item_frame: true
+  prevent_crafting: true
+  prevent_break: true
+
+messages:
+  prefix: "&6&lPixik&e&lLobby &8» &7"
+  no_permission: "&cУ вас нет разрешения на это!"
+  plugin_reloaded: "&aПлагин успешно перезагружен!"
+  compass_given: "&aКомпас меню выдан!"
+  compass_already_have: "&cУ вас уже есть компас меню!"
+  version: "&aPixikLobbyUtil v%version% by Pixik"
+
+sounds:
+  click_sound: "UI_BUTTON_CLICK"
+  click_volume: 1.0
+  click_pitch: 1.0
+  receive_sound: "ENTITY_ITEM_PICKUP"
+  receive_volume: 1.0
+  receive_pitch: 1.0
+
+worlds:
+  enabled_worlds:
+    - "world"
+    - "lobby"
+  disabled_worlds:
+    - "nether"
+    - "the_end"
+
+auto_give:
+  on_join: true
+  on_respawn: true
+  on_world_change: true
+  remove_on_disabled_world: true
+
+cooldowns:
+  click_cooldown: 500
+  bypass_cooldown_permission: "pixiklobbyutil.bypass.cooldown"
+
+advanced:
+  use_action_bar: false
+  dynamic_display: false
+  update_checker: true
+  metrics: true
+  debug: false
