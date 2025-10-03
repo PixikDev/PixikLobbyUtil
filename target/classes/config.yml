@@ -44,7 +44,6 @@ sounds:
 worlds:
   enabled_worlds:
     - "world"
-    - "lobby"
   disabled_worlds:
     - "nether"
     - "the_end"
