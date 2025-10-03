@@ -1,6 +1,6 @@
 compass:
   slot: 4
-  material: "COMPASS"
+  material: "EMERALD"
   display_name: "&6&lМЕНЮ"
   lore:
     - "&7Нажмите для открытия меню"
@@ -9,7 +9,7 @@ compass:
   glowing: true
 
 menu:
-  command: "menu"
+  command: "dm open lobby_menu"
   click_types:
     - "LEFT"
     - "RIGHT"
@@ -29,8 +29,8 @@ messages:
   prefix: "&6&lPixik&e&lLobby &8» &7"
   no_permission: "&cУ вас нет разрешения на это!"
   plugin_reloaded: "&aПлагин успешно перезагружен!"
-  compass_given: "&aКомпас меню выдан!"
-  compass_already_have: "&cУ вас уже есть компас меню!"
+  compass_given: "&aИзумруд меню выдан!"
+  compass_already_have: "&cУ вас уже есть изумруд меню!"
   version: "&aPixikLobbyUtil v%version% by Pixik"
 
 sounds:

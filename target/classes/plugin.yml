@@ -1,7 +1,24 @@
 name: PIxikLobbyUtil
-version: '1.0'
+version: '1.1.1'
 main: pixik.ru.pixiklobbyutil.PixikLobbyUtil
 api-version: '1.21'
 authors: [PixikDev]
 description: Plugin on compass
 website: shop.hoolmc.ru
+commands:
+  pixiklobbyutil:
+    description: Main command for PixikLobbyUtil
+    usage: /<command> [reload]
+    permission: pixiklobbyutil.admin
+permissions:
+  pixiklobbyutil.*:
+    description: All permissions for PixikLobbyUtil
+    children:
+      pixiklobbyutil.use: true
+      pixiklobbyutil.admin: true
+  pixiklobbyutil.use:
+    description: Use menu emerald
+    default: true
+  pixiklobbyutil.admin:
+    description: Admin commands
+    default: op

@@ -34,7 +34,7 @@ public class PlayerListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if (plugin.getPluginConfig().getBoolean("auto_give.on_join", true)) {
-            giveCompassIfAllowed(player);
+            giveMenuEmeraldIfAllowed(player);
         }
     }
 
@@ -42,7 +42,7 @@ public class PlayerListener implements Listener {
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
         if (plugin.getPluginConfig().getBoolean("auto_give.on_respawn", true)) {
-            giveCompassIfAllowed(player);
+            giveMenuEmeraldIfAllowed(player);
         }
     }
 
@@ -50,14 +50,14 @@ public class PlayerListener implements Listener {
     public void onWorldChange(PlayerChangedWorldEvent event) {
         Player player = event.getPlayer();
         if (plugin.getPluginConfig().getBoolean("auto_give.on_world_change", true)) {
-            giveCompassIfAllowed(player);
+            giveMenuEmeraldIfAllowed(player);
         }
 
         if (plugin.getPluginConfig().getBoolean("auto_give.remove_on_disabled_world", true)) {
             String worldName = player.getWorld().getName();
             List<String> disabledWorlds = plugin.getPluginConfig().getStringList("worlds.disabled_worlds");
             if (disabledWorlds.contains(worldName)) {
-                removeCompass(player);
+                removeMenuEmerald(player);
             }
         }
     }
@@ -67,7 +67,7 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
 
-        if (item != null && plugin.isMenuCompass(item)) {
+        if (item != null && plugin.isMenuEmerald(item)) {
             Action action = event.getAction();
             String actionName = action.name();
 
@@ -95,7 +95,7 @@ public class PlayerListener implements Listener {
                     player.sendMessage(prefix.replace('&', '§') + message.replace('&', '§'));
                 }
 
-                String command = plugin.getPluginConfig().getString("menu.command", "menu");
+                String command = plugin.getPluginConfig().getString("menu.command", "dm open lobby_menu");
                 player.performCommand(command);
             }
         }
@@ -105,7 +105,7 @@ public class PlayerListener implements Listener {
     public void onItemDrop(PlayerDropItemEvent event) {
         if (plugin.getPluginConfig().getBoolean("protection.prevent_drop", true)) {
             ItemStack item = event.getItemDrop().getItemStack();
-            if (plugin.isMenuCompass(item)) {
+            if (plugin.isMenuEmerald(item)) {
                 event.setCancelled(true);
             }
         }
@@ -121,16 +121,16 @@ public class PlayerListener implements Listener {
         ItemStack currentItem = event.getCurrentItem();
         ItemStack cursorItem = event.getCursor();
 
-        boolean isCurrentCompass = currentItem != null && plugin.isMenuCompass(currentItem);
-        boolean isCursorCompass = cursorItem != null && plugin.isMenuCompass(cursorItem);
+        boolean isCurrentEmerald = currentItem != null && plugin.isMenuEmerald(currentItem);
+        boolean isCursorEmerald = cursorItem != null && plugin.isMenuEmerald(cursorItem);
 
-        if (isCurrentCompass || isCursorCompass) {
+        if (isCurrentEmerald || isCursorEmerald) {
             boolean preventMove = plugin.getPluginConfig().getBoolean("protection.prevent_move", true);
             boolean preventOtherInventories = plugin.getPluginConfig().getBoolean("protection.prevent_other_inventories", true);
-            int compassSlot = plugin.getCompassSlot();
+            int emeraldSlot = plugin.getMenuEmeraldSlot();
 
             if (preventMove &&
-                    event.getSlot() != compassSlot &&
+                    event.getSlot() != emeraldSlot &&
                     event.getInventory().getType() == InventoryType.PLAYER) {
                 event.setCancelled(true);
                 return;
@@ -147,7 +147,7 @@ public class PlayerListener implements Listener {
     public void onCraftItem(CraftItemEvent event) {
         if (plugin.getPluginConfig().getBoolean("protection.prevent_crafting", true)) {
             for (ItemStack item : event.getInventory().getMatrix()) {
-                if (item != null && plugin.isMenuCompass(item)) {
+                if (item != null && plugin.isMenuEmerald(item)) {
                     event.setCancelled(true);
                     return;
                 }
@@ -155,7 +155,7 @@ public class PlayerListener implements Listener {
         }
     }
 
-    private void giveCompassIfAllowed(Player player) {
+    private void giveMenuEmeraldIfAllowed(Player player) {
         String worldName = player.getWorld().getName();
 
         List<String> enabledWorlds = plugin.getPluginConfig().getStringList("worlds.enabled_worlds");
@@ -166,16 +166,16 @@ public class PlayerListener implements Listener {
             return;
         }
 
-        if (hasCompass(player)) {
+        if (hasMenuEmerald(player)) {
             return;
         }
 
-        giveCompass(player);
+        giveMenuEmerald(player);
     }
 
-    private void giveCompass(Player player) {
-        ItemStack compass = plugin.createMenuCompass();
-        player.getInventory().setItem(plugin.getCompassSlot(), compass);
+    private void giveMenuEmerald(Player player) {
+        ItemStack emerald = plugin.createMenuEmerald();
+        player.getInventory().setItem(plugin.getMenuEmeraldSlot(), emerald);
 
         if (plugin.getPluginConfig().getBoolean("sounds.receive_sound")) {
             try {
@@ -188,19 +188,19 @@ public class PlayerListener implements Listener {
         }
     }
 
-    private void removeCompass(Player player) {
+    private void removeMenuEmerald(Player player) {
         for (int i = 0; i < player.getInventory().getSize(); i++) {
             ItemStack item = player.getInventory().getItem(i);
-            if (plugin.isMenuCompass(item)) {
+            if (plugin.isMenuEmerald(item)) {
                 player.getInventory().setItem(i, null);
                 break;
             }
         }
     }
 
-    private boolean hasCompass(Player player) {
+    private boolean hasMenuEmerald(Player player) {
         for (ItemStack item : player.getInventory().getContents()) {
-            if (plugin.isMenuCompass(item)) {
+            if (plugin.isMenuEmerald(item)) {
                 return true;
             }
         }

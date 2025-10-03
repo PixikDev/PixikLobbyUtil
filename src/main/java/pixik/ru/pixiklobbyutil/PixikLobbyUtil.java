@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
+import pixik.ru.pixiklobbyutil.commands.CommandHandler;
 import pixik.ru.pixiklobbyutil.listener.PlayerListener;
 
 import java.util.List;
@@ -15,18 +16,19 @@ import java.util.stream.Collectors;
 public class PixikLobbyUtil extends JavaPlugin {
 
     private static PixikLobbyUtil instance;
-    private NamespacedKey compassKey;
+    private NamespacedKey menuEmeraldKey;
     private FileConfiguration config;
 
     @Override
     public void onEnable() {
         instance = this;
-        compassKey = new NamespacedKey(this, "pixik_menu_compass");
+        menuEmeraldKey = new NamespacedKey(this, "pixik_menu_emerald");
 
         saveDefaultConfig();
         config = getConfig();
 
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+        getCommand("pixiklobbyutil").setExecutor(new CommandHandler(this));
 
         getLogger().info("PixikLobbyUtil plugin enabled!");
     }
@@ -45,23 +47,23 @@ public class PixikLobbyUtil extends JavaPlugin {
         return instance;
     }
 
-    public NamespacedKey getCompassKey() {
-        return compassKey;
+    public NamespacedKey getMenuEmeraldKey() {
+        return menuEmeraldKey;
     }
 
     public FileConfiguration getPluginConfig() {
         return config;
     }
 
-    public ItemStack createMenuCompass() {
-        String materialName = config.getString("compass.material", "COMPASS");
+    public ItemStack createMenuEmerald() {
+        String materialName = config.getString("compass.material", "EMERALD");
         Material material = Material.getMaterial(materialName);
         if (material == null) {
-            material = Material.COMPASS;
+            material = Material.EMERALD;
         }
 
-        ItemStack compass = new ItemStack(material);
-        ItemMeta meta = compass.getItemMeta();
+        ItemStack emerald = new ItemStack(material);
+        ItemMeta meta = emerald.getItemMeta();
 
         String displayName = config.getString("compass.display_name", "&6&lМЕНЮ");
         meta.displayName(net.kyori.adventure.text.Component.text(displayName.replace('&', '§')));
@@ -74,7 +76,7 @@ public class PixikLobbyUtil extends JavaPlugin {
             meta.lore(loreComponents);
         }
 
-        meta.getPersistentDataContainer().set(compassKey, PersistentDataType.BYTE, (byte) 1);
+        meta.getPersistentDataContainer().set(menuEmeraldKey, PersistentDataType.BYTE, (byte) 1);
 
         if (config.contains("compass.custom_model_data")) {
             meta.setCustomModelData(config.getInt("compass.custom_model_data"));
@@ -86,11 +88,11 @@ public class PixikLobbyUtil extends JavaPlugin {
 
         meta.setUnbreakable(true);
 
-        compass.setItemMeta(meta);
-        return compass;
+        emerald.setItemMeta(meta);
+        return emerald;
     }
 
-    public boolean isMenuCompass(ItemStack item) {
+    public boolean isMenuEmerald(ItemStack item) {
         if (item == null || item.getType() == Material.AIR) {
             return false;
         }
@@ -100,11 +102,11 @@ public class PixikLobbyUtil extends JavaPlugin {
             return false;
         }
 
-        Byte value = meta.getPersistentDataContainer().get(compassKey, PersistentDataType.BYTE);
+        Byte value = meta.getPersistentDataContainer().get(menuEmeraldKey, PersistentDataType.BYTE);
         return value != null && value == (byte) 1;
     }
 
-    public int getCompassSlot() {
+    public int getMenuEmeraldSlot() {
         return config.getInt("compass.slot", 4);
     }
 }
