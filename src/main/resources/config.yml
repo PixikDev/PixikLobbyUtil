@@ -9,7 +9,7 @@ compass:
   glowing: true
 
 menu:
-  command: "dm open lobby_menu"
+  command: "dm open lobby_menu %player%"
   click_types:
     - "LEFT"
     - "RIGHT"

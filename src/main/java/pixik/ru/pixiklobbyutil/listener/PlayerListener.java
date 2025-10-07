@@ -1,5 +1,6 @@
 package pixik.ru.pixiklobbyutil.listener;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -96,7 +97,8 @@ public class PlayerListener implements Listener {
                 }
 
                 String command = plugin.getPluginConfig().getString("menu.command", "dm open lobby_menu");
-                player.performCommand(command);
+
+                executeConsoleCommand(player, command);
             }
         }
     }
@@ -239,5 +241,17 @@ public class PlayerListener implements Listener {
             } catch (IllegalArgumentException e) {
             }
         }
+    }
+
+    private void executeConsoleCommand(Player player, String command) {
+        if (command == null || command.isEmpty()) {
+            return;
+        }
+
+        String formattedCommand = command
+                .replace("%player%", player.getName())
+                .replace("%world%", player.getWorld().getName());
+
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), formattedCommand);
     }
 }

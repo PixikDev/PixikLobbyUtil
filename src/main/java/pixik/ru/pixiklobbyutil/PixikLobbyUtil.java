@@ -1,5 +1,6 @@
 package pixik.ru.pixiklobbyutil;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -18,6 +19,7 @@ public class PixikLobbyUtil extends JavaPlugin {
     private static PixikLobbyUtil instance;
     private NamespacedKey menuEmeraldKey;
     private FileConfiguration config;
+    private UpdateChecker updateChecker;
 
     @Override
     public void onEnable() {
@@ -29,6 +31,9 @@ public class PixikLobbyUtil extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
         getCommand("pixiklobbyutil").setExecutor(new CommandHandler(this));
+
+        updateChecker = new UpdateChecker(this);
+        updateChecker.checkForUpdate();
 
         getLogger().info("PixikLobbyUtil plugin enabled!");
     }
